@@ -5,13 +5,22 @@ import org.junit.jupiter.api.Test
 
 internal class GildedRoseTest {
     @Test
+    fun `item name should not change after calling updateQuality`() {
+        val item = updateQuality(
+            passingDays = 10,
+            Item(name = "regular item", sellIn = 1, quality = 0)
+        )
+
+        assertEquals("regular item", item.name)
+    }
+
+    @Test
     fun `0 day passed for regular item, sellIn and quality did not change`() {
         val item = updateQuality(
             passingDays = 0,
             Item(name = "regular item", sellIn = 1, quality = 0)
         )
 
-        assertEquals("regular item", item.name)
         assertEquals(1, item.sellIn)
         assertEquals(0, item.quality)
     }
@@ -23,7 +32,6 @@ internal class GildedRoseTest {
             Item(name = "regular item", sellIn = 0, quality = 0)
         )
 
-        assertEquals("regular item", item.name)
         assertEquals(-1, item.sellIn)
         assertEquals(0, item.quality)
     }
@@ -39,6 +47,132 @@ internal class GildedRoseTest {
 
         assertEquals(-1, item.sellIn)
         assertEquals(3, item.quality)
+    }
+
+    @Test
+    fun `Aged Brie increases in Quality the older it gets`() {
+        val item = updateQuality(
+            passingDays = 1,
+            Item(name = "Aged Brie", sellIn = 2, quality = 1)
+        )
+
+        assertEquals(1, item.sellIn)
+        assertEquals(2, item.quality)
+    }
+
+    @Test
+    fun `Aged Brie increases in Quality twice as fast past the sell by date`() {
+        val item = updateQuality(
+            passingDays = 2,
+            Item(name = "Aged Brie", sellIn = 1, quality = 1)
+        )
+
+        assertEquals(-1, item.sellIn)
+        assertEquals(4, item.quality)
+    }
+
+    @Test
+    fun `Aged Brie Quality cannot be more than 50`() {
+        val item = updateQuality(
+            passingDays = 100,
+            Item(name = "Aged Brie", sellIn = 1, quality = 1)
+        )
+
+        assertEquals(-99, item.sellIn)
+        assertEquals(50, item.quality)
+    }
+
+    @Test
+    fun `Sulfuras quality does not drop and sellIn is the same, sellIn = 1`() {
+        val item = updateQuality(
+            passingDays = 100,
+            Item(name = "Sulfuras, Hand of Ragnaros", sellIn = 1, quality = 80)
+        )
+
+        assertEquals(1, item.sellIn)
+        assertEquals(80, item.quality)
+    }
+
+    @Test
+    fun `Sulfuras quality does not drop and sellIn is the same, sellIn is -1 `() {
+        // this is needed to get the false use case on line 41
+        // TODO: the sulfuras use cases needed to be refactored to make more sense
+        val item = updateQuality(
+            passingDays = 100,
+            Item(name = "Sulfuras, Hand of Ragnaros", sellIn = -1, quality = 80)
+        )
+
+        assertEquals(-1, item.sellIn)
+        assertEquals(80, item.quality)
+    }
+
+    @Test
+    fun `Backstage passes Quality increase by 1 when there are 10 days left`() {
+        val item = updateQuality(
+            passingDays = 1,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
+        )
+
+        assertEquals(10, item.sellIn)
+        assertEquals(2, item.quality)
+    }
+
+    @Test
+    fun `Backstage passes Quality increase by 2 when there less than 10 days left`() {
+        val item = updateQuality(
+            passingDays = 2,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
+        )
+
+        assertEquals(9, item.sellIn)
+        assertEquals(4, item.quality)
+    }
+
+    @Test
+    fun `Backstage passes Quality increase by 2 when there are 5 days left`() {
+        val item = updateQuality(
+            passingDays = 6,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
+        )
+
+        assertEquals(5, item.sellIn)
+        assertEquals(12, item.quality)
+    }
+
+    @Test
+    fun `Backstage passes Quality increase by 3 when there less than 5 days left`() {
+        val item = updateQuality(
+            passingDays = 7,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
+        )
+
+        assertEquals(4, item.sellIn)
+        assertEquals(15, item.quality)
+    }
+
+    @Test
+    fun `Backstage passes Quality drops to 0 after the concert`() {
+        val item = updateQuality(
+            passingDays = 12,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
+        )
+
+        assertEquals(-1, item.sellIn)
+        assertEquals(0, item.quality)
+    }
+
+    @Test
+    fun `Backstage passes Quality is above 50`() {
+        // trying to hit lines 19 and 25 (negative scenario) with this test function to get 100% code coverage
+        // but can't hit it because of line 14: items[i].quality < 50
+        // TODO: the above lines of code needs to be refactored to remove this test case and less confusing
+        val item = updateQuality(
+            passingDays = 1,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 51)
+        )
+
+        assertEquals(10, item.sellIn)
+        assertEquals(51, item.quality)
     }
 
     private fun updateQuality(passingDays: Int, item: Item): Item {
