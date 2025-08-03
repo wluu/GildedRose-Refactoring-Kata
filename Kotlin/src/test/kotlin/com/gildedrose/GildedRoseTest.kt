@@ -161,20 +161,6 @@ internal class GildedRoseTest {
         assertEquals(0, item.quality)
     }
 
-    @Test
-    fun `Backstage passes Quality is above 50`() {
-        // trying to hit lines 19 and 25 (negative scenario) with this test function to get 100% code coverage
-        // but can't hit it because of line 14: items[i].quality < 50
-        // TODO: the above lines of code needs to be refactored to remove this test case and less confusing
-        val item = updateQuality(
-            passingDays = 1,
-            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 51)
-        )
-
-        assertEquals(10, item.sellIn)
-        assertEquals(51, item.quality)
-    }
-
     private fun updateQuality(passingDays: Int, item: Item): Item {
         val gildedRose = GildedRose(listOf(item))
 
