@@ -5,26 +5,27 @@ class GildedRose(val items: List<Item>) {
     fun updateQuality() {
         for (i in items.indices) {
             val itemName = items[i].name
+            val itemQuality = items[i].quality
 
             if (itemName != FineGoods.AGED_BRIE.rawName && itemName != FineGoods.BACKSTAGE_PASS.rawName) {
-                if (items[i].quality > 0) {
+                if (itemQuality > 0) {
                     if (itemName != FineGoods.SULFURAS.rawName) {
                         items[i].quality = items[i].quality - 1
                     }
                 }
             } else {
-                if (items[i].quality < 50) {
+                if (itemQuality < 50) {
                     items[i].quality = items[i].quality + 1
 
                     if (itemName == FineGoods.BACKSTAGE_PASS.rawName) {
                         if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
+                            if (itemQuality < 50) {
                                 items[i].quality = items[i].quality + 1
                             }
                         }
 
                         if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
+                            if (itemQuality < 50) {
                                 items[i].quality = items[i].quality + 1
                             }
                         }
@@ -39,7 +40,7 @@ class GildedRose(val items: List<Item>) {
             if (items[i].sellIn < 0) {
                 if (itemName != FineGoods.AGED_BRIE.rawName) {
                     if (itemName != FineGoods.BACKSTAGE_PASS.rawName) {
-                        if (items[i].quality > 0) {
+                        if (itemQuality > 0) {
                             if (itemName != FineGoods.SULFURAS.rawName) {
                                 items[i].quality = items[i].quality - 1
                             }
@@ -48,14 +49,13 @@ class GildedRose(val items: List<Item>) {
                         items[i].quality = items[i].quality - items[i].quality
                     }
                 } else {
-                    if (items[i].quality < 50) {
+                    if (itemQuality < 50) {
                         items[i].quality = items[i].quality + 1
                     }
                 }
             }
         }
     }
-
 }
 
 // don't want to deal with string literals
