@@ -46,7 +46,7 @@ class GildedRose(val items: List<Item>) {
                             }
                         }
                     } else {
-                        items[index].quality = item.quality - item.quality
+                        items[index].quality = 0
                     }
                 } else {
                     if (itemQuality < 50) {
