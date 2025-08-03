@@ -95,7 +95,7 @@ internal class GildedRoseTest {
 
     @Test
     fun `Sulfuras quality does not drop and sellIn is the same, sellIn is -1 `() {
-        // this is needed to get the false use case on line 41
+        // this is needed to get the false use case on line 42
         // TODO: the sulfuras use cases needed to be refactored to make more sense
         val item = updateQuality(
             passingDays = 100,
