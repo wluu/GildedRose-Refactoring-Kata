@@ -14,9 +14,9 @@ class GildedRose(val items: List<Item>) {
                 }
             } else {
                 if (itemQuality < MAX_QUALITY_50) {
-                    items[index].quality = itemQuality + 1
-
                     if (itemName == FineGoods.BACKSTAGE_PASS.rawName) {
+                        items[index].quality = itemQuality + 1
+
                         if (item.sellIn <= SELL_IN_10_DAYS) {
                             // can't replace item.quality with itemQuality val; breaks unit tests
                             items[index].quality = item.quality + 1
@@ -26,6 +26,8 @@ class GildedRose(val items: List<Item>) {
                             // can't replace item.quality with itemQuality val; breaks unit tests
                             items[index].quality = item.quality + 1
                         }
+                    } else {
+                        items[index].quality = itemQuality + 1
                     }
                 }
             }
