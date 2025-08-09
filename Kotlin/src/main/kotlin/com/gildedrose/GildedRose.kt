@@ -1,7 +1,6 @@
 package com.gildedrose
 
 class GildedRose(val items: List<Item>) {
-
     fun updateQuality() {
         items.forEachIndexed { index, item ->
             val itemName = item.name
@@ -14,16 +13,16 @@ class GildedRose(val items: List<Item>) {
                     }
                 }
             } else {
-                if (itemQuality < 50) {
+                if (itemQuality < MAX_QUALITY_50) {
                     items[index].quality = itemQuality + 1
 
                     if (itemName == FineGoods.BACKSTAGE_PASS.rawName) {
-                        if (item.sellIn < 11) {
+                        if (item.sellIn <= SELL_IN_10_DAYS) {
                             // can't replace item.quality with itemQuality val; breaks unit tests
                             items[index].quality = item.quality + 1
                         }
 
-                        if (item.sellIn < 6) {
+                        if (item.sellIn <= SELL_IN_5_DAYS) {
                             // can't replace item.quality with itemQuality val; breaks unit tests
                             items[index].quality = item.quality + 1
                         }
@@ -48,13 +47,20 @@ class GildedRose(val items: List<Item>) {
                         items[index].quality = 0
                     }
                 } else {
-                    if (itemQuality < 50) {
+                    if (itemQuality < MAX_QUALITY_50) {
                         // can't replace item.quality with itemQuality val; breaks unit tests
                         items[index].quality = item.quality + 1
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        private const val MAX_QUALITY_50 = 50
+
+        private const val SELL_IN_10_DAYS = 10
+        private const val SELL_IN_5_DAYS = 5
     }
 }
 
