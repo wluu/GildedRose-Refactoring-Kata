@@ -2,7 +2,7 @@ package com.gildedrose
 
 class GildedRose(val items: List<Item>) {
     fun updateQuality() {
-        items.forEachIndexed { index, item ->
+        items.forEach { item ->
             val itemName = item.name
             val itemQuality = item.quality
 
