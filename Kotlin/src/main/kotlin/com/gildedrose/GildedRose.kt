@@ -18,12 +18,10 @@ class GildedRose(val items: List<Item>) {
                         var updatedItemQuality = itemQuality + 1
 
                         if (item.sellIn <= SELL_IN_10_DAYS) {
-                            // can't replace item.quality with itemQuality val; breaks unit tests
                             updatedItemQuality = updatedItemQuality + 1
                         }
 
                         if (item.sellIn <= SELL_IN_5_DAYS) {
-                            // can't replace item.quality with itemQuality val; breaks unit tests
                             updatedItemQuality = updatedItemQuality + 1
                         }
 
