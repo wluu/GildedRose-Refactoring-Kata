@@ -107,54 +107,54 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `Backstage passes Quality increase by 1 when there are 10 days left`() {
+    fun `Backstage passes Quality increase by 2 when there are 10 days left`() {
         val item = endOfDayUpdatedQuality(
             daysPassed = 1,
-            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
-        )
-
-        assertEquals(10, item.sellIn)
-        assertEquals(2, item.quality)
-    }
-
-    @Test
-    fun `Backstage passes Quality increase by 2 when there less than 10 days left`() {
-        val item = endOfDayUpdatedQuality(
-            daysPassed = 2,
-            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 10, quality = 1)
         )
 
         assertEquals(9, item.sellIn)
-        assertEquals(4, item.quality)
+        assertEquals(3, item.quality)
     }
 
     @Test
-    fun `Backstage passes Quality increase by 2 when there are 5 days left`() {
+    fun `Backstage passes Quality increase by 2 when there are less than 10 days left`() {
         val item = endOfDayUpdatedQuality(
-            daysPassed = 6,
-            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
+            daysPassed = 1,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 9, quality = 1)
         )
 
-        assertEquals(5, item.sellIn)
-        assertEquals(12, item.quality)
+        assertEquals(8, item.sellIn)
+        assertEquals(3, item.quality)
+    }
+
+    @Test
+    fun `Backstage passes Quality increase by 3 when there are 5 days left`() {
+        val item = endOfDayUpdatedQuality(
+            daysPassed = 1,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 5, quality = 1)
+        )
+
+        assertEquals(4, item.sellIn)
+        assertEquals(4, item.quality)
     }
 
     @Test
     fun `Backstage passes Quality increase by 3 when there less than 5 days left`() {
         val item = endOfDayUpdatedQuality(
-            daysPassed = 7,
-            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
+            daysPassed = 1,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 4, quality = 1)
         )
 
-        assertEquals(4, item.sellIn)
-        assertEquals(15, item.quality)
+        assertEquals(3, item.sellIn)
+        assertEquals(4, item.quality)
     }
 
     @Test
     fun `Backstage passes Quality drops to 0 after the concert`() {
         val item = endOfDayUpdatedQuality(
-            daysPassed = 12,
-            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 11, quality = 1)
+            daysPassed = 2,
+            Item(name = "Backstage passes to a TAFKAL80ETC concert", sellIn = 1, quality = 1)
         )
 
         assertEquals(-1, item.sellIn)
